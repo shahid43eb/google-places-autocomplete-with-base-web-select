@@ -24,6 +24,10 @@
   color: white;
 }
 
+.select {
+  width: 500px;
+}
+
 .App-link {
   color: #61dafb;
 }

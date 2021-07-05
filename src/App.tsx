@@ -1,23 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { FunctionComponent } from 'react';
+import PlacesAutocomplete from 'react-places-autocomplete';
+import { Select,TYPE } from "baseui/select";
 import './App.css';
 
-function App() {
+const App : FunctionComponent = () => {
+  const [inputAddress, setInputAddress] = React.useState('');
+  const [address, setAddress] = React.useState([]);
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <div className="select">
+            <PlacesAutocomplete
+                debounce={1000}
+                value={inputAddress}
+                onChange={setInputAddress}
+            >
+                {({getInputProps, suggestions, loading})=>{
+                    const {onChange} = getInputProps()
+                    return(
+                        <Select
+                            autoFocus
+                            options={suggestions.map(({ description, placeId }) => ({
+                                label: description,
+                                id: placeId,
+                            }))}
+                            value={address}
+                            type={TYPE.search}
+                            placeholder="Search places..."
+                            isLoading={loading}
+                            onInputChange={onChange}
+                            onChange={({value}:any):void => setAddress(value)}
+                        />
+                    )
+                }}
+            </PlacesAutocomplete>
+        </div>
       </header>
     </div>
   );
